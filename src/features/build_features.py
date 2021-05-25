@@ -17,6 +17,16 @@ from spacy.symbols import  ORTH
 nlp = spacy.load("en_core_web_sm")
 
 def preprocessing(dataset, column):    
+    """[This function preprocess a document. It makes the sentence
+    in lowercase, split a sentence, perform stemming, join them back together]
+
+    Args:
+        dataset ([pd.DataFrame]): [pandas dataframe]
+        column ([string]): [Name of the column to be processed]
+
+    Returns:
+        [list]: [A corpus]
+    """
     
     corpus = []
     for i in range(0, 1000):
@@ -33,6 +43,15 @@ def preprocessing(dataset, column):
 
 
 def bag_of_words(dataset, corpus):
+    """[Perofrm bag of words modeling]
+
+    Args:
+        dataset ([pd.DataFrame]): [Pandas dataframe]
+        corpus : [corpus]
+
+    Returns:
+        [X, y]: [Returns features and target]
+    """
     from sklearn.feature_extraction.text import CountVectorizer
     cv = CountVectorizer(max_features=1500)
     X = cv.fit_transform(corpus).toarray()
@@ -264,3 +283,54 @@ def add_to_tokenizer(string, word, word_split):
     print([w.text for w in nlp(string)])
 
 
+def create_cooccurrence_matrix(sentences, window_size=2):
+    """Create co occurrence matrix from given list of sentences.
+    Reference: https://stackoverflow.com/questions/20574257/constructing-a-co-occurrence-matrix-in-python-pandas
+    
+    Returns:
+    - vocabs: dictionary of word counts
+    - co_occ_matrix_sparse: sparse co occurrence matrix
+
+    Example:
+    ===========
+    sentences = ['I love nlp',    'I love to learn',
+                 'nlp is future', 'nlp is cool']
+
+    vocabs,co_occ = create_cooccurrence_matrix(sentences)
+
+    df_co_occ  = pd.DataFrame(co_occ.todense(),
+                              index=vocabs.keys(),
+                              columns = vocabs.keys())
+
+    df_co_occ = df_co_occ.sort_index()[sorted(vocabs.keys())]
+
+    df_co_occ.style.applymap(lambda x: 'color: red' if x>0 else '')   
+
+    """
+    import scipy
+    import nltk
+
+    vocabulary = {}
+    data = []
+    row = []
+    col = []
+
+    tokenizer = nltk.tokenize.word_tokenize
+
+    for sentence in sentences:
+        sentence = sentence.strip()
+        tokens = [token for token in tokenizer(sentence) if token != u""]
+        for pos, token in enumerate(tokens):
+            i = vocabulary.setdefault(token, len(vocabulary))
+            start = max(0, pos-window_size)
+            end = min(len(tokens), pos+window_size+1)
+            for pos2 in range(start, end):
+                if pos2 == pos:
+                    continue
+                j = vocabulary.setdefault(tokens[pos2], len(vocabulary))
+                data.append(1.)
+                row.append(i)
+                col.append(j)
+
+    cooccurrence_matrix_sparse = scipy.sparse.coo_matrix((data, (row, col)))
+    return vocabulary, cooccurrence_matrix_sparse
