@@ -1,5 +1,6 @@
 sentiment_analysis
 ==============================
+This project is part of my baby steps into NLP. 
 
 Sentiment analysis using NLP
 
@@ -56,5 +57,7 @@ Project Organization
 References: 
 
 1) https://nlpoverview.com/#4
-2) Book: Practical natural language proessing with python
+2) Natural-language-processing-pytorch- Pluralsight
 3) Book: Natural language processing with python
+4) Book: Practical natural language proessing with python
+5) https://towardsdatascience.com/getting-started-with-natural-language-processing-nlp-2c482420cc05

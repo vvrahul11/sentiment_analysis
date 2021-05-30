@@ -1,0 +1,13 @@
+Reference: https://towardsdatascience.com/getting-started-with-natural-language-processing-nlp-2c482420cc05
+
+* Removing punctuation: When trying to train a machine learning model, it helps to reduce overfitting by removing punctuation (like !,* etc.). However, be careful to not remove something important, for example, question marks (?) help to recognize questions.
+
+* Removing emojis: Sometimes people attach emojis to words without spaces (for example: you❤ ) making it difficult to interpret such words. Removing emojis can help with such cases. Again, be careful while removing these as emojis might actually be really useful for tasks like sentiment analysis and topic classification.
+
+* Removing stop words: For tasks like data exploration and trend analysis, it might not be very useful to see common words like ‘the’, ‘and’ , ‘of’ etc. The sklearn package actually has a collection of commonly used English stop words that we can use to remove these.
+
+* Making all text lowercase: This is the simplest way to normalize text. (after all, BeTTer and better do have the same semantic implication)
+
+* Stemming words: Another way of normalizing is by replacing derived words with their root form (eg: ‘posting’, ‘posted’, ‘posts’ are all replaced by ‘post’). To stem words we use the PorterStemmer util provided by nltk.
+
+* Extracting/Removing hashtags and mentions: Hashtags and mentions can be very useful in identifying trends in your data. It helps to extract them out of your text and analyze them separately.

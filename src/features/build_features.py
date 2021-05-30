@@ -16,32 +16,6 @@ from spacy.symbols import  ORTH
 
 nlp = spacy.load("en_core_web_sm")
 
-def preprocessing(dataset, column):    
-    """[This function preprocess a document. It makes the sentence
-    in lowercase, split a sentence, perform stemming, join them back together]
-
-    Args:
-        dataset ([pd.DataFrame]): [pandas dataframe]
-        column ([string]): [Name of the column to be processed]
-
-    Returns:
-        [list]: [A corpus]
-    """
-    
-    corpus = []
-    for i in range(0, 1000):
-        review = re.sub('[^a-zA-Z]', ' ', dataset[column][i])
-        review = review.lower()
-        review = review.split()
-        ps = PorterStemmer()
-        all_stopwords = stopwords.words('english')
-        all_stopwords.remove('not')
-        review = [ps.stem(word) for word in review if not word in set(all_stopwords)]
-        review = ' '.join(review)
-        corpus.append(review)
-    return corpus
-
-
 def bag_of_words(dataset, corpus):
     """[Perofrm bag of words modeling]
 
@@ -80,85 +54,6 @@ def onehot_encode(data):
     print("Onehot Encoded Matrix:\n",onehot_encoded)
 
     return onehot_encoded
-
-
-def remove_whitespaces(data_string, column = None):
-    """ 
-    Remove white space from a string or a dataframe 
-        
-    # string
-    original_string = "Lorem    ipsum        ... no, really, it kept going...          malesuada enim feugiat.         Integer imperdiet    erat."
-    # dataframe
-    df = pd.DataFrame({'message': [original_string[0:50], original_string[0:50]]})
-    # short dataframe
-    #df = original_string[0:50]
-
-    # remove whitespaces
-    data_strings = remove_whitespaces(df, 'message')
-    
-    """ 
-
-    if type(data_string) is str:
-        data_string = ' '.join(data_string.split())
-
-    elif type(data_string) is pd.DataFrame:
-        try:
-            data_string[column] = (data_string[column].str.split()).str.join(' ')
-        except:
-            print("Column name is not provided")
-        
-    return data_string
-
-def count_words(filepath, words_list):
-    """
-
-    Parameters
-    ----------
-    filepath : str
-        Path to text file
-        
-    words_list : list of str
-        Count the total number of appearance of these words
-        
-
-    Returns
-    -------
-    n : int
-        Total number of times the words appears
-        
-    Usage: 
-    count_words('../alice.txt', ['cat', 'dog'])
-
-    """
-    # Open the text file
-    with open(filepath) as file:
-        text = file.read()
-
-    n = 0
-    for word in text.split():
-        # Count the number of times the words in the list appear
-        if word.lower() in words_list:
-            n += 1
-
-    print('Lewis Carroll uses the word "cat" {} times'.format(n))
-
-    return n
-
-def remove_digits(corpus):
-    """ 
-    Remove digits (ex: 4, 12) from a sentence
-    Arguments:
-        corpus: string
-    """
-    corpus = re.sub(r'\d+', '', corpus)
-
-    return corpus
-
-def remove_punctuations(corpus):
-    #removing punctuations
-    import string
-    corpus = corpus.translate(str.maketrans('', '', string.punctuation))
-    return corpus
 
 def tokenize(corpus, nltk = True, spacy = False):
     from pprint import pprint
@@ -334,3 +229,7 @@ def create_cooccurrence_matrix(sentences, window_size=2):
 
     cooccurrence_matrix_sparse = scipy.sparse.coo_matrix((data, (row, col)))
     return vocabulary, cooccurrence_matrix_sparse
+
+def stem_words(words):
+    stemmer = PorterStemmer()
+    words = [stemmer.stem(w) for w in words]
