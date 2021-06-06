@@ -90,6 +90,7 @@ def analyze_restaurant_reviews(path):
                       title='Confusion matrix with all features')
 
 def tweet_clean(text):
+    """ clean tweet """
     text = re.sub(r'[^A-Za-z0-9]+', ' ', text)
     text = re.sub(r'https?:/\/\S+', ' ', text)
     return text.strip()
@@ -149,4 +150,4 @@ def analyze_tweets(path):
 if __name__ == '__main__':
     analyze_restaurant_reviews('data/raw/Restaurant_Reviews.tsv')
     #analyze_tweets('data/external/tweets/tweets.csv')
-    
+    #Sentiment Analysis of IMDB reviews
