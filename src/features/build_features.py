@@ -90,6 +90,16 @@ def tokenize(corpus, nltk = True, spacy = False):
 
         return tokens_without_sw
 
+def word_sentence_tokenization(text):
+    """
+    Get a text with many sentences, apply nltk sentence followed by word_tokenize and lower case
+    """
+    sentences = [
+        [word.lower() for word in nltk.word_tokenize(sentence)]
+        for sentence in nltk.sent_tokenize(text)
+    ]
+    return sentences
+
 def pos_tagging(corpus_original, nltk = True, spacy = False):
     if nltk == True:
         #POS tagging using spacy
