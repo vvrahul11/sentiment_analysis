@@ -34,6 +34,15 @@ def preprocessing(dataset, column):
     return corpus
 
 
+def preprocess_corpus(texts):
+    mystopwords = set(stopwords.words("english"))
+    def remove_stops_digits(tokens):
+        #Nested function that lowercases, removes stopwords and digits from a list of tokens
+        return [token.lower() for token in tokens if token not in mystopwords and not token.isdigit()
+               and token not in punctuation]
+    #This return statement below uses the above function to process twitter tokenizer output further. 
+    return [remove_stops_digits(word_tokenize(text)) for text in texts]
+    
 def remove_emojis(text):
     
     emoji_pattern = re.compile("[" "\U0001F1E0-\U0001F6FF" "]+", flags=re.UNICODE)
