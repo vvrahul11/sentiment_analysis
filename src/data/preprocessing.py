@@ -7,6 +7,7 @@ import emoji
 import string
 
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
+from sklearn.model_selection import train_test_split
 
 def preprocessing(dataset, column):    
     """[This function preprocess a document. It makes the sentence
@@ -21,7 +22,7 @@ def preprocessing(dataset, column):
     """
     
     corpus = []
-    for i in range(0, 1000):
+    for i in range(0, dataset.shape[0]):
         review = re.sub('[^a-zA-Z]', ' ', dataset[column][i])
         review = review.lower()
         review = review.split()
@@ -43,7 +44,7 @@ def preprocess_corpus(texts):
     #This return statement below uses the above function to process twitter tokenizer output further. 
     return [remove_stops_digits(word_tokenize(text)) for text in texts]
     
-def remove_emojis(text):
+def remove_emojis(text):    
     
     emoji_pattern = re.compile("[" "\U0001F1E0-\U0001F6FF" "]+", flags=re.UNICODE)
     text = emoji_pattern.sub(r"", text)
@@ -136,14 +137,17 @@ def remove_punctuations(corpus):
     return corpus
 
 def remove_punctuations_numbers(text):
+    """ remove punctuations numbers """
     text = re.sub(r"[^\x00-\x7F]+", " ", text)
     regex = re.compile('[' + re.escape(string.punctuation) + '0-9\\r\\t\\n]') # remove punctuation and numbers
     nopunct = regex.sub(" ", text.lower())
     words = (''.join(nopunct)).split()
 
 def remove_stopwords(words):
+    """ remove stopwords """
     words = [w for w in words if w not in ENGLISH_STOP_WORDS]
     words = [w for w in words if len(w) > 2]  # remove a,an,of etc.
+    return words
 
 def preprocess_text(text, remove_stop = True, stem_words = False, remove_mentions_hashtags = True):
     """
@@ -181,6 +185,10 @@ def preprocess_text(text, remove_stop = True, stem_words = False, remove_mention
         words = [stemmer.stem(w) for w in words]
 
     return list(words) 
+
+def datasplit(X, y):
+    X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.20,random_state=0)
+    return X_train, X_test, y_train, y_test
 
     
 
