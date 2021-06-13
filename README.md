@@ -1,4 +1,4 @@
-sentiment_analysis
+Sentiment_analysis
 ==============================
 This project is part of my baby steps into NLP. The datasets used and reference code used for studying are from many amazing resources referenced at the bottom. 
 
