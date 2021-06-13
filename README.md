@@ -1,6 +1,6 @@
 sentiment_analysis
 ==============================
-This project is part of my baby steps into NLP. 
+This project is part of my baby steps into NLP. The datasets used and reference code used for studying are from many amazing resources referenced at the bottom. 
 
 Sentiment analysis using NLP
 
@@ -20,9 +20,7 @@ Project Organization
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries
     │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
+    ├── notebooks          <- Jupyter notebooks where the initial analysis is performed.
     │
     ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
     │
@@ -36,15 +34,17 @@ Project Organization
     ├── src                <- Source code for use in this project.
     │   ├── __init__.py    <- Makes src a Python module
     │   │
-    │   ├── data           <- Scripts to download or generate data
+    │   ├── data           <- Scripts to download or generate data and perform pre-processing
     │   │   └── make_dataset.py
-    │   │
+    │   │   └── preprocessing.py
+        │   │
     │   ├── features       <- Scripts to turn raw data into features for modeling
     │   │   └── build_features.py
     │   │
     │   ├── models         <- Scripts to train models and then use trained models to make
     │   │   │                 predictions
-    │   │   ├── predict_model.py
+    │   │   ├── ml_models.py
+    │   │   ├── rnn_models.py    
     │   │   └── train_model.py
     │   │
     │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
