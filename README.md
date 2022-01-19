@@ -53,6 +53,10 @@ Project Organization
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
 
+Jupyter notebooks
+------------
+Jupyter notebooks can be accessed through "notebooks" folder.
+
 --------
 References: 
 
